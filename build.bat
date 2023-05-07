@@ -1,0 +1,1 @@
+python -m PyInstaller .\src\main.py --onefile --windowed --collect-data sv_ttk --name="PreGame"
