@@ -131,78 +131,11 @@ class Get():
         loaded = json.loads(response.text)
         version = str(loaded["data"]["riotClientVersion"])
         return version.replace('shipping-','')
-        
-class Chat():
-
-    def Message(cid, msg):
-        url = f"https://127.0.0.1:{rport}/chat/v6/messages/"
-
-        payload = {
-            "cid": cid,
-            "message": msg,
-            "type": "groupchat"
-        }
-        headers = {
-            "Content-Type": "application/json",
-            "Authorization": f"Basic {passwd}"
-        }
-
-        requests.request("POST", url, json=payload, headers=headers, verify=False)
-
-    def getPartyCid():
-        url = f"https://127.0.0.1:{rport}/chat/v6/conversations/ares-parties"
-
-        headers = {"Authorization": f"Basic {passwd}"}
-
-        response = requests.request("GET", url, headers=headers, verify=False)
-
-        loaded = json.loads(response.text)
-        return loaded["conversations"][0]["cid"]
-
-    def getGameCid():
-        url = f"https://127.0.0.1:{rport}/chat/v6/conversations/ares-coregame"
-
-        headers = {"Authorization": f"Basic {passwd}"}
-
-        response = requests.request("GET", url, headers=headers, verify=False)
-
-        loaded = json.loads(response.text)
-        return loaded["conversations"][0]["cid"]
-    
-    def getTeamCid():
-        url = f"https://127.0.0.1:{rport}/chat/v6/conversations/ares-coregame"
-
-        headers = {"Authorization": f"Basic {passwd}"}
-
-        response = requests.request("GET", url, headers=headers, verify=False)
-
-        loaded = json.loads(response.text)
-        return loaded["conversations"][1]["cid"]
 
 class Match():
-        
-    def Dissociate(matchID):
-        url = f"https://glz-ap-1.ap.a.pvp.net/core-game/v1/players/{puuid}/disassociate/{matchID}"
-
-        headers = {
-            "Authorization": f"Bearer {accessToken}",
-            "X-Riot-Entitlements-JWT": eToken
-        }
-
-        requests.request("POST", url, headers=headers, verify=False)
 
     def Dodge(preMatchID):
         url = f"https://glz-{rsString}.a.pvp.net/pregame/v1/matches/{preMatchID}/quit"
-
-        headers = {
-            "Authorization": f"Bearer {accessToken}",
-            "X-Riot-Entitlements-JWT": eToken
-        }
-
-        requests.request("POST", url, headers=headers, verify=False)
-
-    def AgentSelect(preMatchID, agentID):
-        url = f"https://glz-{rsString}.a.pvp.net/pregame/v1/matches/{preMatchID}/select/{agentID}"
 
         headers = {
             "Authorization": f"Bearer {accessToken}",
@@ -221,30 +154,6 @@ class Match():
 
         requests.request("POST", url, headers=headers, verify=False)
 
-class Party():
-
-    def StartCustom():
-        partyID = Get.PartyID()
-        url = f"https://glz-{rsString}.a.pvp.net/parties/v1/parties/{partyID}/startcustomgame"
-
-        headers = {
-            "Authorization": f"Bearer {accessToken}",
-            "X-Riot-ClientVersion": clientVersion,
-            "X-Riot-Entitlements-JWT": eToken
-        }
-
-        requests.request("POST", url, headers=headers, verify=False)
-
-    def LeaveMatchmaking():
-        partyID = Get.PartyID()
-        url = f"https://glz-{rsString}.a.pvp.net/parties/v1/parties/{partyID}/matchmaking/leave"
-
-        headers = {
-            "Authorization": f"Bearer {accessToken}",
-            "X-Riot-Entitlements-JWT": eToken
-        }
-
-        requests.request("POST", url, headers=headers, verify=False)
 
 rport = Lockfile.port
 passwd = GenPass64(Lockfile.passwd)
